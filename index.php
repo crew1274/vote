@@ -84,8 +84,10 @@ setInterval(function() {
 							<td class="votetime"><?php $str = explode(' ',$rsTheme['vt_time']); echo $str[0];?></td>
 							<td class="votetime"><?php $str = explode(' ',$rsTheme['vt_deadtime']); echo $str[0];?></td>
 							<td class="voters">
+               <?php
 
-								<a href="vote_detail.php?id=<?php echo $rsTheme['vt_id'];?>">前往投票</a>
+								echo '<a href="vote_detail.php?id='.$rsTheme['vt_id'].'">前往投票</a>';
+								?>
 							</td>
 						</tr>
 						<?php
@@ -103,9 +105,9 @@ setInterval(function() {
 					</dl>
 				</form>
 				<dl id="down">
-					<dt>相關提示</dt>
+					<dt>公告提示</dt>
 					<dd>
-
+          5j/4ul4l4knr40
 					</dd>
 				</dl>
 			</div>
