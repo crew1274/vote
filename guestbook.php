@@ -18,6 +18,24 @@
 	 	}
 	 }
 ?>
+<script type="text/javascript">
+setInterval(function() {
+    var currentTime = new Date ( );
+		var currentYears = currentTime.getFullYear ( );
+		var currentMonth = currentTime.getMonth ( );
+		var currentDays = currentTime.getDate ( );
+    var currentHours = currentTime.getHours ( );
+    var currentMinutes = currentTime.getMinutes ( );
+    var currentSeconds = currentTime.getSeconds ( );
+    currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
+    currentSeconds = ( currentSeconds < 10 ? "0" : "" ) + currentSeconds;
+    var timeOfDay = ( currentHours < 12 ) ? "AM" : "PM";
+    currentHours = ( currentHours > 12 ) ? currentHours - 12 : currentHours;
+    currentHours = ( currentHours == 0 ) ? 12 : currentHours;
+    var currentTimeString = currentYears+"/"+currentMonth+"/"+currentDays+"  "+timeOfDay+" "+currentHours + ":" + currentMinutes + ":" + currentSeconds;
+    document.getElementById("timer").innerHTML = currentTimeString;
+}, 1000);
+ </script>
 <!DOCTYPE>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -26,7 +44,7 @@
 <link rel="stylesheet" type="text/css" href="styles/index.css" />
 <link rel="stylesheet" type="text/css" href="styles/guestbook.css" />
 
-<title>投票系统--留言建議</title>
+<title>留言給我們</title>
 </head>
 <body>
 	<div id="container">
@@ -38,15 +56,15 @@
 		?>
 		<div id="main">
 			<div id="main-top">
-				<p>你現在登入的Ip是<span class="blue"><?php echo $_SERVER['REMOTE_ADDR']; ?></span>,現在時間是:<span class="blue"><?php echo date('Y-m-d',time())?></span></p>
+				<p>你現在登入的Ip是<span class="blue"><?php echo'<b>'. $_SERVER['REMOTE_ADDR'].'</b>'; ?></span>,現在時間是:<span class="blue"><b id=timer></b></span></p>
 			</div>
 			<div id="addguest">
 				<form action="" method="post" name="guestform">
 					<dl>
-						<dt>添加留言建議</dt>
+						<dt>新增留言建議</dt>
 						<dd><label>留言標題:<input type="text" name="title" class="title"/></label></dd>
 						<dd><label>留言内容:<textarea name="content"></textarea></label></dd>
-						<dd><input type="submit" name="guest" value="添加留言" /></dd>
+						<dd><input type="submit" name="guest" value="留言" /></dd>
 						<dd><a href="javascript:;" onclick="history.go(-1);">返回</a></dd>
 					</dl>
 				</form>
