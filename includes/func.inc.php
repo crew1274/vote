@@ -1,4 +1,68 @@
 <?php
+function encrypt($data, $key)
+{$key = md5($key);
+    $x  = 0;
+    $len = strlen($data);
+    $l  = strlen($key);
+    for ($i = 0; $i < $len; $i++)
+    {if ($x == $l)
+        {$x = 0;}
+        $char .= $key{$x};
+        $x++;  }
+    for ($i = 0; $i < $len; $i++)
+    {$str .= chr(ord($data{$i}) + (ord($char{$i})) % 256);  }
+    return base64_encode($str);
+}
+
+function decrypt($data, $key)
+{$key = md5($key);
+    $x = 0;
+    $data = base64_decode($data);
+    $len = strlen($data);
+    $l = strlen($key);
+    for ($i = 0; $i < $len; $i++)
+    {if ($x == $l)
+        { $x = 0;}
+        $char .= substr($key, $x, 1);
+        $x++;  }
+    for ($i = 0; $i < $len; $i++)
+    {if(ord(substr($data, $i, 1)) < ord(substr($char, $i, 1)))
+        {$str .= chr((ord(substr($data, $i, 1)) + 256) - ord(substr($char, $i, 1)));}
+        else
+        {  $str .= chr(ord(substr($data, $i, 1)) - ord(substr($char, $i, 1)));  }  }
+    return $str;
+}
+
+function send_mail($student_id,$student_name,$student_password,$encrypt)
+{
+  require ('PHPMailer/PHPMailerAutoload.php');
+	date_default_timezone_set('Asia/Taipei');
+	mb_internal_encoding('UTF-8');
+	$mail = new PHPMailer;
+	$mail->isSMTP();
+	$mail->SMTPDebug = 2;
+	$mail->Debugoutput = 'html';
+	$mail->Host = 'smtp.gmail.com';
+	$mail->Port = 587;
+	$mail->SMTPSecure = 'tls';
+	$mail->SMTPAuth = true;
+	$mail->Username = "50156gm@gmail.com";
+	$mail->Password = "gmgm50156";
+	$mail->setFrom('50156gm@gmail.com', '國立成功大學課務組');
+	$mail->addReplyTo('50156gm@gmail.com', '國立成功大學課務組');
+	$mail->addAddress($student_id.'@mail.ncku.edu.tw',$student_id);
+	$mail->Subject = '投票系統驗證信';
+  $mail->Body = '你好,'.$student_name.'同學:<br>
+  謝謝你參與我們的投票活動，<a href="http://localhost/vote/authentication.php?authentication='.$encrypt.'">請點此連結選來驗證你的帳號!</a><br>
+  並請記得你的密碼<i>'.$student_password.'</i>，方便日後登入網站參與其他的投票活動，謝謝。<br>
+  國立成功大學課務組';
+  $mail->AltBody = '你好,'.$student_name.'同學:<br>
+  謝謝你參與我們的投票活動，<a href="http://localhost/vote/authentication.php?authentication='.$encrypt.'">請點此連結選來驗證你的帳號!</a><br>
+  並請記得你的密碼<i>'.$student_password.'</i>，方便日後登入網站參與其他的投票活動，謝謝。<br>
+  國立成功大學課務組';
+  if ($mail->send()) {
+  }
+}
 /* 服务端检查用户输入的用户名是否合法
  * @param $user	用户名
  * @param $min	最小长度
@@ -6,7 +70,6 @@
  * */
 function checkUser($user,$min,$max){
 	$user = trim($user);
-
 	if(empty($user)){
 		alertBack('用戶名稱不能為空');
 	}
