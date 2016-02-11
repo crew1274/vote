@@ -1,22 +1,28 @@
 <?php
 	 require 'includes/comm.inc.php';
 
-	 //添加留言
-	 if(!empty($_POST['guest'])){
-	 	$guestInfo = array();
-	 	$guestInfo['title'] = mysql_real_escape_string(chkNtitle($_POST['title'],2,50));
-	 	$guestInfo['content'] = mysql_real_escape_string(chkNcontent($_POST['content'],10,255));
-
-	 	mysqlQuery("INSERT INTO `vt_guest`(`vt_title`,`vt_content`,`vt_ip`,`vt_time`) VALUES('{$guestInfo['title']}','{$guestInfo['content']}','{$_SERVER['REMOTE_ADDR']}',NOW())");
+	  $authentication = $_GET["authentication"];
+    $student_id=decrypt($authentication, 50150);
+		$rs = mysqlFetchArray("SELECT * FROM `vt_student` WHERE `student_id` ='{$student_id}' ");
+		if($rs == NULL)
+		{
+			alertLocation('請檢查網址是否錯誤!如有問題請連絡我們。', 'index.php');
+		}
+		if($rs['token'] == 1)
+		{
+			alertLocation('此學號已驗證過!', 'index.php');
+		}
+	 	mysqlQuery("UPDATE `vt_student` SET `token`='1' WHERE `student_id`='{$student_id}'");
 
 	 	if(mysql_affected_rows() == 1){
 	 		mysql_close($conn);
-	 		alertLocation('留言成功!謝謝!', 'index.php');
-	 	}else{
-	 		mysql_close($conn);
-	 		alertBack('留言失败!');
+	 		alertLocation('驗證成功!即將自動導向首頁!', 'index.php');
 	 	}
-	 }
+		else
+		{
+	 		mysql_close($conn);
+	 		alertLocation('驗證失敗!如有問題請連絡我們。', 'index.php');
+	 	}
 ?>
 <script type="text/javascript">
 setInterval(function() {
@@ -60,9 +66,6 @@ setInterval(function() {
 			</div>
 			<div id="addguest">
 					<dl>
-						<dt>驗證成功，將自動導向首頁...</dt>
-						<dd><label>留言標題:<input type="text" name="title" class="title"/></label></dd>
-
 					</dl>
 			</div>
 			<div class="clear"></div>

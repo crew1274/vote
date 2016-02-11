@@ -21,7 +21,7 @@
 	 		mysql_close($conn);
 			$encrypt=encrypt($signupInfo['student_id'],50150);
 			send_mail($signupInfo['student_id'],$signupInfo['name'],$signupInfo['password'],$encrypt);
-	 		alertLocation($rs.'註冊成功!請前往學校信箱收取驗證郵件。', 'index.php');
+	 		alertLocation('註冊成功!請前往學校信箱收取驗證郵件。', 'index.php');
 	 	}else{
 	 		mysql_close($conn);
 	 		alertBack('註冊失敗!如有問題請連絡我們。');
