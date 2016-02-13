@@ -1,11 +1,18 @@
 <?php
 	 require 'includes/comm.inc.php';
-	   if(!isset($_SESSION['student_id']))
+	   if(!isset($_SESSION['student_id']) || !isset($_SESSION['student_name']))
 		 {
      alertLocation('請先登入帳號!', 'index.php');
 		 }
-		 else {
-
+     $result= mysqlFetchArray("SELECT * FROM `vt_student` WHERE `student_id`='{$_SESSION['student_id']}'");
+		 if($result['token']!=1)
+		 {
+     alertLocation('請先收取信件驗證此學號!', 'index.php');
+		 }
+		 $result_1= mysqlFetchArray("SELECT * FROM `vt_theme_{$_GET['id']}` WHERE `student_id`='{$_SESSION['student_id']}'");
+     if($result_1!= NULL)
+		 {
+			alertLocation('該主題你已投票過!', 'index.php');
 		 }
 	 //获取对应投票主题id的投票选项
 	 if(isset($_GET['id']) && !empty($_GET['id'])){

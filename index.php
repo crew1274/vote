@@ -77,7 +77,7 @@ setInterval(function() {
 						<dd><i><a href="forget.php">忘記密碼</a></i></dd>';
 					}
 					else {
-            echo '<dd>你現在以'.$_SESSION['student_name'].'登入...<br></dd>
+            echo '<dd><h3>你現在以'.$_SESSION['student_name'].'登入...</h3><br></dd>
 						<a  href="logout.php" class="button">登出</a><br>';
 					}
 					 ?>

@@ -1,31 +1,32 @@
 <?php
 	 require 'includes/comm.inc.php';
-
-	  $authentication = $_GET["authentication"];
-    $student_id=decrypt($authentication, 50150);
-		$rs = mysqlFetchArray("SELECT * FROM `vt_student` WHERE `student_id` ='{$student_id}' ");
-		if($rs == NULL)
-		{
-			alertLocation('請檢查網址是否錯誤!如有問題請連絡我們。', 'index.php');
-		}
-		if($rs['token'] == 1)
-		{
-			alertLocation('此學號已驗證過!', 'index.php');
-		}
-	 	mysqlQuery("UPDATE `vt_student` SET `token`='1' WHERE `student_id`='{$student_id}'");
+    if(!empty($_POST['submit'])){
+	 	$signupInfo = array();
+	 	$str = mysql_real_escape_string(chkNtitle($_POST['student_id'],9,11));
+		$signupInfo['student_id']= strtoupper($str);
+	 	$signupInfo['name'] = mysql_real_escape_string(chkNcontent($_POST['name'],2,30));
+		$signupInfo['password'] = mysql_real_escape_string(chkNcontent($_POST['password'],2,40));
+		$signuptInfo['password_confrim'] = mysql_real_escape_string(chkNcontent($_POST['password_confrim'],2,40));
+		if($signupInfo['password'] != $signuptInfo['password_confrim'])
+		{mysql_close($conn);
+		alertBack('請確認密碼是否相符!');}
+		$rs = mysqlFetchArray("SELECT `student_id` FROM `vt_student` WHERE `student_id` ='{$signupInfo['student_id']}' ");
+ 	 	if($rs != NULL)
+		{mysql_close($conn);
+ 	 	alertBack('此學號已註冊過!');
+ 	 	}
+	 	mysqlQuery("INSERT INTO `vt_student`(`student_id`,`student_name`,`student_password`,`signup_ip`,`signup_time`) VALUES('{$signupInfo['student_id']}','{$signupInfo['name']}','{$signupInfo['password']}','{$_SERVER['REMOTE_ADDR']}',NOW())");
 
 	 	if(mysql_affected_rows() == 1){
 	 		mysql_close($conn);
-			$_SESSION['student_id']= $rs['student_id'];
-			$_SESSION['student_name']= $rs['student_name'];
- 			setcookie('student_id',$rs['student_id']);
-	 		alertLocation('驗證成功!即將自動導向首頁!', 'index.php');
-	 	}
-		else
-		{
+			$encrypt=encrypt($signupInfo['student_id'],50150);
+			send_mail($signupInfo['student_id'],$signupInfo['name'],$signupInfo['password'],$encrypt);
+	 		alertLocation('註冊成功!請前往學校信箱收取驗證郵件。', 'index.php');
+	 	}else{
 	 		mysql_close($conn);
-	 		alertLocation('驗證失敗!如有問題請連絡我們。', 'index.php');
+	 		alertBack('註冊失敗!如有問題請連絡我們。');
 	 	}
+	}
 ?>
 <script type="text/javascript">
 setInterval(function() {
@@ -53,9 +54,9 @@ setInterval(function() {
 <link rel="stylesheet" type="text/css" href="styles/index.css" />
 <link rel="stylesheet" type="text/css" href="styles/guestbook.css" />
 
-<title>投票系統驗證</title>
+<title>不可錯過的10門課票選</title>
 </head>
-<body>
+<body onload="timenow()" >
 	<div id="container">
 		<div id="logo">
 			Logo
@@ -68,7 +69,13 @@ setInterval(function() {
 				<p>你現在登入的Ip是<span class="blue"><?php echo'<b>'. $_SERVER['REMOTE_ADDR'].'</b>'; ?></span>,現在時間是:<span class="blue"><b id=timer></b></span></p>
 			</div>
 			<div id="addguest">
+				<form action="" method="post" name="guestform">
 					<dl>
+						<dd><h5>請填寫學號，我們將會寄發信件到此信箱。</h5></dd>
+						<dd><label>學號:<input type="text" name="student_id" class="student_id"/></label></dd>
+						</form>
+						<dd><input type="submit" name="submit" value="取得密碼驗證信" /></dd>
+						<dd><a href="javascript:;" onclick="history.go(-1);">返回</a></dd>
 					</dl>
 			</div>
 			<div class="clear"></div>
