@@ -54,7 +54,7 @@ setInterval(function() {
 <link rel="stylesheet" type="text/css" href="styles/index.css" />
 <link rel="stylesheet" type="text/css" href="styles/guestbook.css" />
 
-<title>取得帳號</title>
+<title>不可錯過的10門課票選</title>
 </head>
 <body onload="timenow()" >
 	<div id="container">

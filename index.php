@@ -1,10 +1,28 @@
 <?php
 	 require 'includes/comm.inc.php';
-
-	 //显示投票主题
-	 //$queryTheme = mysqlQuery("SELECT `vt_id`,`vt_title`,`vt_time` FROM `vt_theme`");
 	 $queryTheme = mysqlQuery("SELECT `vt_id`,`vt_title`,`vt_time` ,`vt_deadtime`FROM `vt_theme` ORDER BY `vt_deadtime` DESC");
 	 $queryNotice = mysqlQuery("SELECT `vt_title`,`vt_content` FROM `vt_notice` ORDER BY `vt_id` DESC LIMIT 6");
+	 if(!empty($_POST['login'])){
+ 		$loginInfo = array();
+ 		$str = checkUser($_POST['student_id'],8,20);
+		$loginInfo['student_id']= strtoupper($str);
+ 		$loginInfo['pass'] = chkNcontent($_POST['pass'],2,20);
+ 		$result = mysqlFetchArray("SELECT * FROM`vt_student`
+ 		                                WHERE`student_id`='{$loginInfo['student_id']}'
+ 											              AND `student_password`='{$loginInfo['pass']}'
+ 										  LIMIT 1 ");
+
+ 		if(mysql_affected_rows() == 1){
+ 			$_SESSION['student_id']= $result['student_id'];
+			$_SESSION['student_name']= $result['student_name'];
+ 			setcookie('student_id',$result['student_id']);
+ 			mysql_close($conn);
+ 			alertLocation('將以'.$_SESSION['student_name'].'身分登入!', 'index.php');
+ 		}elseif(mysql_affected_rows() == 0){
+ 			mysql_close($conn);
+ 			alertBack('學號密碼錯誤!');
+ 		}
+ 	}
 ?>
 <script type="text/javascript">
 setInterval(function() {
@@ -47,16 +65,22 @@ setInterval(function() {
 			</div>
 			<div id="main-left">
 				<dl id="gonggao">
-					<dt>最新公告</dt>
-					<marquee scrollamount="1" scrolldelay="40" direction="up" width="200" height="140" onMouseOver="this.stop()" onMouseOut="this.start()">
-					<?php
-						while(!!$rsNotice = fetchArray($queryNotice)){
-					?>
-					<dd><a href="javascript:;" title="<?php echo $rsNotice['vt_content'];?>"><?php echo mb_substr($rsNotice['vt_title'], 0,12,'utf-8').'...';?></a></dd>
-					<?php
-						}
-					?>
-					</marquee>
+					<dt>登入</dt>
+          <?php
+          if(!isset($_SESSION['student_id']))
+					{
+						echo '<form action="" method="post"><br>
+						<label>學號:<input type="text" name="student_id" /></label><br>
+            <label>密碼:<input type="password" name="pass" /></label>
+			      <dd class="subbtm"><input type="submit" name="login" value="登入" />&nbsp;&nbsp;&nbsp;<input type="reset" name="reset" value="重置"/>
+            </form>
+						<dd><i><a href="forget.php">忘記密碼</a></i></dd>';
+					}
+					else {
+            echo '<dd>你現在以'.$_SESSION['student_name'].'登入...<br></dd>
+						<a  href="logout.php" class="button">登出</a><br>';
+					}
+					 ?>
 				</dl>
 				<dl id="contact">
 					<dt>聯絡我們</dt>
@@ -85,8 +109,14 @@ setInterval(function() {
 							<td class="votetime"><?php $str = explode(' ',$rsTheme['vt_deadtime']); echo $str[0];?></td>
 							<td class="voters">
                <?php
-
-								echo '<a href="vote_detail.php?id='.$rsTheme['vt_id'].'">前往投票</a>';
+							 /*$localtime=localtime(time(), true));
+							 echo $rsTheme['vt_time'];
+							 if($localtime<$rsTheme['vt_time'])
+							 echo '尚未開放';
+							 else if ($localtime>$rsTheme['vt_time'] && $localtime<$rsTheme['vt_deadtime'])*/
+							 echo '<a href="vote_detail.php?id='.$rsTheme['vt_id'].'">前往投票</a>';
+							/*else  if ($localtime>$rsTheme['vt_deadtime'])
+							 echo "投票截止";*/
 								?>
 							</td>
 						</tr>
@@ -104,11 +134,17 @@ setInterval(function() {
 						<dd><input type="submit" name="search" value="搜尋" class="sub"/></dd>
 					</dl>
 				</form>
-				<dl id="down">
+				<dl id="notice">
 					<dt>公告提示</dt>
 					<dd>
-          5j/4ul4l4knr40
-					</dd>
+						<?php
+							while(!!$rsNotice = fetchArray($queryNotice)){
+						?>
+						<dd><a href="javascript:;" title="<?php echo $rsNotice['vt_content'];?>"><?php echo mb_substr($rsNotice['vt_title'], 0,24,'utf-8').'...';?></a></dd>
+						<?php
+							}
+						?>
+        </dd>
 				</dl>
 			</div>
 			<div class="clear"></div>

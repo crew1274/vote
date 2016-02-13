@@ -10,10 +10,10 @@
 										  LIMIT 1 ");
 
 		if(mysql_affected_rows() == 1){
-			$_SESSION['user']= $result['vt_name'];
-			setcookie('adminid',$rs['vt_id']);
+			$_SESSION['admin']= $result['vt_name'];
+			setcookie('adminid',$result['vt_id']);
 			mysql_close($conn);
-			alertLocation('將以'.$_SESSION['user'].'身分登入!', 'index.php');
+			alertLocation('將以'.$_SESSION['admin'].'身分登入!', 'index.php');
 		}elseif(mysql_affected_rows() == 0){
 			mysql_close($conn);
 			alertBack('帳號密碼錯誤');

@@ -16,6 +16,9 @@
 
 	 	if(mysql_affected_rows() == 1){
 	 		mysql_close($conn);
+			$_SESSION['student_id']= $result['student_id'];
+			$_SESSION['student_name']= $result['student_name'];
+ 			setcookie('student_id',$result['student_id']);
 	 		alertLocation('驗證成功!即將自動導向首頁!', 'index.php');
 	 	}
 		else

@@ -1,15 +1,19 @@
 <?php
 	 require 'includes/comm.inc.php';
+	   if(!isset($_SESSION['student_id']))
+		 {
+     alertLocation('請先登入帳號!', 'index.php');
+		 }
+		 else {
 
+		 }
 	 //获取对应投票主题id的投票选项
 	 if(isset($_GET['id']) && !empty($_GET['id'])){
-
 	 	//判断是否存在该id对应的投票主题
 	 	$rs = mysqlFetchArray("SELECT `vt_title` FROM `vt_theme` WHERE `vt_id`='{$_GET['id']}'");
 	 	if(mysql_affected_rows() == 0){
 	 		alertLocation('不存在該投票主題!', 'index.php');
 	 	}
-
 	 	$queryList = mysqlQuery("SELECT
 	 										`vt_id`,
 								 			`vt_vid`,
@@ -23,21 +27,15 @@
 								 			`vt_id`
 								 	DESC
 	 							");
-
-
 	 }
-
 	 //进行投票
 	 if(!empty($_POST['vote'])){
 
 	 	if(empty($_POST['list'])){
 	 		alertBack('你没有選擇投票選項,請選擇!');
 	 	}
-
 	 	//同ip限時投票
-
 	 	//$nowTime =
-
 	 	$ipInfo = array();
 	 	$ipInfo['title'] = mysql_real_escape_string($_POST['title']);
 	 	$ipInfo['listid'] = mysql_real_escape_string($_POST['list']);
@@ -70,14 +68,32 @@
 	 	}
 	 }
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<script type="text/javascript">
+setInterval(function() {
+    var currentTime = new Date ( );
+		var currentYears = currentTime.getFullYear ( );
+		var currentMonth = currentTime.getMonth ( );
+		var currentDays = currentTime.getDate ( );
+    var currentHours = currentTime.getHours ( );
+    var currentMinutes = currentTime.getMinutes ( );
+    var currentSeconds = currentTime.getSeconds ( );
+    currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
+    currentSeconds = ( currentSeconds < 10 ? "0" : "" ) + currentSeconds;
+    var timeOfDay = ( currentHours < 12 ) ? "AM" : "PM";
+    currentHours = ( currentHours > 12 ) ? currentHours - 12 : currentHours;
+    currentHours = ( currentHours == 0 ) ? 12 : currentHours;
+    var currentTimeString = currentYears+"/"+currentMonth+"/"+currentDays+"  "+timeOfDay+" "+currentHours + ":" + currentMinutes + ":" + currentSeconds;
+    document.getElementById("timer").innerHTML = currentTimeString;
+}, 1000);
+ </script>
+<!DOCTYPE>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" type="text/css" href="styles/style.css" />
 <link rel="stylesheet" type="text/css" href="styles/index.css" />
 <link rel="stylesheet" type="text/css" href="styles/vote_detail.css" />
-<title>投票系统--投票</title>
+<title>不可錯過的10門課票選</title>
 </head>
 <body>
 	<div id="container">
@@ -89,7 +105,7 @@
 		?>
 		<div id="main">
 			<div id="main-top">
-				<p>歡迎遊客(Ip:<span class="blue"><?php echo $_SERVER['REMOTE_ADDR']; ?></span>),現在時間是:<span class="blue"><?php echo date('Y-m-d',time())?></span></p>
+				<p>你現在登入的Ip是<span class="blue"><?php echo'<b>'. $_SERVER['REMOTE_ADDR'].'</b>'; ?></span>,現在時間是:<span class="blue"><b id=timer></b></span></p>
 			</div>
 			<div id="vote-detail">
 				<h4><?php echo $rs['vt_title'];?></h4>

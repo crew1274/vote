@@ -54,11 +54,11 @@ function send_mail($student_id,$student_name,$student_password,$encrypt)
 	$mail->Subject = '投票系統驗證信';
   $mail->Body = '你好,'.$student_name.'同學:<br>
   謝謝你參與我們的投票活動，<a href="http://localhost/vote/authentication.php?authentication='.$encrypt.'">請點此連結選來驗證你的帳號!</a><br>
-  並請記得你的密碼<i>'.$student_password.'</i>，方便日後登入網站參與其他的投票活動，謝謝。<br>
+  並請記得你的密碼<i>'.$student_password.'</i>，方便日後登入網站參與其他的投票活動，謝謝。<br><br>
   國立成功大學課務組';
   $mail->AltBody = '你好,'.$student_name.'同學:<br>
   謝謝你參與我們的投票活動，<a href="http://localhost/vote/authentication.php?authentication='.$encrypt.'">請點此連結選來驗證你的帳號!</a><br>
-  並請記得你的密碼<i>'.$student_password.'</i>，方便日後登入網站參與其他的投票活動，謝謝。<br>
+  並請記得你的密碼<i>'.$student_password.'</i>，方便日後登入網站參與其他的投票活動，謝謝。<br><br>
   國立成功大學課務組';
   if ($mail->send()) {
   }
@@ -138,7 +138,7 @@ function fetchArray($result){
 
 //判断是否有权限访问页面
 function isAccess(){
-	if(!isset($_SESSION['user'])){
+	if(!isset($_SESSION['admin'])){
 		alertLocation('没有權限,請先登入!', 'login.php');
 	}
 }
