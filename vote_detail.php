@@ -140,9 +140,9 @@ setInterval(function() {
 						</tbody>
 					</table>
 					<table>
-					<h4>是否接受我們的訪問，我們將會以電子郵件聯絡你。</h4>
+					<h4>是否接受我們的訪問成為課程推薦大使嗎?我們將會主動聯絡你。</h4>
 					<tr>
-						<td class="list"><input type="radio" name="interview" value="2" />是</td>
+						<td class="list"><input type="radio" name="interview" value="2" />是，我有意願!</td>
 					</tr>
 					<tr>
 						<td class="list"><input type="radio" name="interview" value="1" />否</td>

@@ -54,7 +54,7 @@ setInterval(function() {
 <body>
 	<div id="container">
 		<div id="logo">
-			Logo
+			<img src="images/logo.jpg">
 		</div>
 		<?php
 			include 'includes/nav.inc.php';
@@ -140,7 +140,7 @@ setInterval(function() {
 						<?php
 							while(!!$rsNotice = fetchArray($queryNotice)){
 						?>
-						<dd><a href="javascript:;" title="<?php echo $rsNotice['vt_content'];?>"><?php echo mb_substr($rsNotice['vt_title'], 0,24,'utf-8').'...';?></a></dd>
+						<dd><a href="javascript:;" title="<?php echo $rsNotice['vt_content'];?>"><?php echo mb_substr($rsNotice['vt_title'], 0,24,'utf-8');?></a></dd>
 						<?php
 							}
 						?>
