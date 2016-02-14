@@ -15,7 +15,7 @@
 		{mysql_close($conn);
  	 	alertBack('此學號已註冊過!');
  	 	}
-	 	mysqlQuery("INSERT INTO `vt_student`(`student_id`,`student_name`,`student_password`,`signup_ip`,`signup_time`) VALUES('{$signupInfo['student_id']}','{$signupInfo['name']}','{$signupInfo['password']}','{$_SERVER['REMOTE_ADDR']}',NOW())");
+	 	mysqlQuery("INSERT INTO `vt_student`(`student_id`,`student_name`,`student_password`,`signup_ip`,`signup_time`) VALUES('{$signupInfo['student_id']}','{$signupInfo['name']}','{$signupInfo['password']}','{$_SERVER['REMOTE_ADDR']}',localtime())");
 
 	 	if(mysql_affected_rows() == 1){
 	 		mysql_close($conn);

@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- 主機: localhost
--- 產生時間： 2016-02-11 07:58:18
+-- 產生時間： 2016-02-14 12:13:11
 -- 伺服器版本: 5.6.25
 -- PHP 版本： 5.6.11
 
@@ -75,7 +75,15 @@ CREATE TABLE IF NOT EXISTS `vt_ip` (
   `vt_ip` char(15) NOT NULL COMMENT '//投票ip',
   `vt_time` datetime NOT NULL COMMENT '//投票时间',
   `vt_timelimit` int(11) NOT NULL COMMENT '//同ip限时投票'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- 資料表的匯出資料 `vt_ip`
+--
+
+INSERT INTO `vt_ip` (`vt_id`, `vt_title`, `vt_listid`, `vt_ip`, `vt_time`, `vt_timelimit`) VALUES
+(1, '投出你最喜歡的專業課程', 17, '::1', '2016-02-14 14:51:06', 0),
+(2, '投出你最喜歡的專業課程', 18, '::1', '2016-02-14 16:44:57', 0);
 
 -- --------------------------------------------------------
 
@@ -89,14 +97,16 @@ CREATE TABLE IF NOT EXISTS `vt_list` (
   `vt_title` varchar(20) NOT NULL COMMENT '投票主題',
   `vt_list` varchar(32) NOT NULL COMMENT '投票選項',
   `vt_count` int(11) NOT NULL COMMENT '投票總數'
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
 --
 -- 資料表的匯出資料 `vt_list`
 --
 
 INSERT INTO `vt_list` (`vt_id`, `vt_vid`, `vt_title`, `vt_list`, `vt_count`) VALUES
-(16, 2, '投出你最喜歡的通識課程', 'wwww', 5);
+(16, 2, '投出你最喜歡的通識課程', 'wwww', 6),
+(17, 1, '', 'qqqq', 1),
+(18, 1, '', 'wwwww', 2);
 
 -- --------------------------------------------------------
 
@@ -150,7 +160,7 @@ INSERT INTO `vt_student` (`id`, `student_id`, `student_password`, `student_name`
 (9, 'wwwwwwwwww', 'www', 'www', '::1', '2016-02-09', 0),
 (10, 'qeeeeeeeee', 'eee', 'www', '::1', '2016-02-09', 0),
 (11, 'qeeeeeewww', 'www', 'www', '::1', '2016-02-09', 0),
-(31, 'N96041101', 'www', 'www', '::1', '2016-02-10', 0);
+(31, 'N96041101', 'www', 'www', '::1', '2016-02-10', 1);
 
 -- --------------------------------------------------------
 
@@ -161,7 +171,7 @@ INSERT INTO `vt_student` (`id`, `student_id`, `student_password`, `student_name`
 CREATE TABLE IF NOT EXISTS `vt_theme` (
   `vt_id` tinyint(4) NOT NULL COMMENT '//自动编号',
   `vt_title` varchar(30) NOT NULL COMMENT '//投票主题',
-  `vt_time` datetime NOT NULL COMMENT '//发起日期',
+  `vt_time` datetime NOT NULL COMMENT '開始日期',
   `vt_deadtime` datetime NOT NULL,
   `vt_admin` varchar(20) NOT NULL COMMENT '//发起人',
   `vt_type` varchar(20) NOT NULL COMMENT '//投票类型'
@@ -173,7 +183,51 @@ CREATE TABLE IF NOT EXISTS `vt_theme` (
 
 INSERT INTO `vt_theme` (`vt_id`, `vt_title`, `vt_time`, `vt_deadtime`, `vt_admin`, `vt_type`) VALUES
 (1, '投出你最喜歡的專業課程', '2015-09-03 20:40:38', '2016-01-28 00:00:00', '課務組', ''),
-(2, '投出你最喜歡的通識課程', '2016-02-05 10:46:51', '2016-03-01 00:00:00', 'hwh', '');
+(2, '投出你最喜歡的通識課程', '2016-02-05 10:46:51', '2017-03-01 00:00:00', 'hwh', '');
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `vt_theme_1`
+--
+
+CREATE TABLE IF NOT EXISTS `vt_theme_1` (
+  `ai` int(11) NOT NULL,
+  `student_id` varchar(11) NOT NULL COMMENT '學生的學號',
+  `student_vote_id` int(4) NOT NULL COMMENT '學生的投票選擇',
+  `student_interview` tinyint(2) NOT NULL COMMENT '學生是否接受訪問',
+  `ip` varchar(20) NOT NULL,
+  `vote_time` date NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
+--
+-- 資料表的匯出資料 `vt_theme_1`
+--
+
+INSERT INTO `vt_theme_1` (`ai`, `student_id`, `student_vote_id`, `student_interview`, `ip`, `vote_time`) VALUES
+(7, 'N96041101', 18, 1, '::1', '2016-02-14');
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `vt_theme_2`
+--
+
+CREATE TABLE IF NOT EXISTS `vt_theme_2` (
+  `ai` int(11) NOT NULL,
+  `student_id` varchar(11) NOT NULL,
+  `student_vote_id` int(4) NOT NULL,
+  `student_interview` tinyint(2) NOT NULL,
+  `ip` varchar(20) NOT NULL,
+  `vote_time` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 資料表的匯出資料 `vt_theme_2`
+--
+
+INSERT INTO `vt_theme_2` (`ai`, `student_id`, `student_vote_id`, `student_interview`, `ip`, `vote_time`) VALUES
+(0, 'N96041101', 16, 1, '::1', '2016-02-14');
 
 --
 -- 已匯出資料表的索引
@@ -222,6 +276,18 @@ ALTER TABLE `vt_theme`
   ADD PRIMARY KEY (`vt_id`);
 
 --
+-- 資料表索引 `vt_theme_1`
+--
+ALTER TABLE `vt_theme_1`
+  ADD PRIMARY KEY (`ai`);
+
+--
+-- 資料表索引 `vt_theme_2`
+--
+ALTER TABLE `vt_theme_2`
+  ADD PRIMARY KEY (`ai`);
+
+--
 -- 在匯出的資料表使用 AUTO_INCREMENT
 --
 
@@ -239,12 +305,12 @@ ALTER TABLE `vt_guest`
 -- 使用資料表 AUTO_INCREMENT `vt_ip`
 --
 ALTER TABLE `vt_ip`
-  MODIFY `vt_id` tinyint(4) NOT NULL AUTO_INCREMENT COMMENT '//自动编号';
+  MODIFY `vt_id` tinyint(4) NOT NULL AUTO_INCREMENT COMMENT '//自动编号',AUTO_INCREMENT=3;
 --
 -- 使用資料表 AUTO_INCREMENT `vt_list`
 --
 ALTER TABLE `vt_list`
-  MODIFY `vt_id` tinyint(4) NOT NULL AUTO_INCREMENT COMMENT 'auto_increase',AUTO_INCREMENT=17;
+  MODIFY `vt_id` tinyint(4) NOT NULL AUTO_INCREMENT COMMENT 'auto_increase',AUTO_INCREMENT=19;
 --
 -- 使用資料表 AUTO_INCREMENT `vt_notice`
 --
@@ -260,6 +326,11 @@ ALTER TABLE `vt_student`
 --
 ALTER TABLE `vt_theme`
   MODIFY `vt_id` tinyint(4) NOT NULL AUTO_INCREMENT COMMENT '//自动编号',AUTO_INCREMENT=3;
+--
+-- 使用資料表 AUTO_INCREMENT `vt_theme_1`
+--
+ALTER TABLE `vt_theme_1`
+  MODIFY `ai` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -77,7 +77,7 @@ setInterval(function() {
 						<dd><i><a href="forget.php">忘記密碼</a></i></dd>';
 					}
 					else {
-            echo '<dd><h3>你現在以'.$_SESSION['student_name'].'登入...</h3><br></dd>
+            echo '<dd><h3>你現在以'.$_SESSION['student_name'].'身分登入</h3><br></dd>
 						<a  href="logout.php" class="button">登出</a><br>';
 					}
 					 ?>
@@ -104,7 +104,7 @@ setInterval(function() {
 						?>
 						<tr>
 							<td class="voteid"><?php echo '#'.$rsTheme['vt_id']; ?></td>
-							<td class="votetitle"><?php echo mb_substr($rsTheme['vt_title'], 0,18,'UTF-8'); ?></a></td>
+							<td class="votetitle"><a href="result.php?id=<?php echo $rsTheme['vt_id'];?>"><?php echo mb_substr($rsTheme['vt_title'], 0,18,'UTF-8'); ?></a></td>
 							<td class="votetime"><?php $str = explode(' ',$rsTheme['vt_time']); echo $str[0];?></td>
 							<td class="votetime"><?php $str = explode(' ',$rsTheme['vt_deadtime']); echo $str[0];?></td>
 							<td class="voters">

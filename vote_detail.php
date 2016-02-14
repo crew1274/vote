@@ -9,11 +9,6 @@
 		 {
      alertLocation('請先收取信件驗證此學號!', 'index.php');
 		 }
-		 $result_1= mysqlFetchArray("SELECT * FROM `vt_theme_{$_GET['id']}` WHERE `student_id`='{$_SESSION['student_id']}'");
-     if($result_1!= NULL)
-		 {
-			alertLocation('該主題你已投票過!', 'index.php');
-		 }
 	 //获取对应投票主题id的投票选项
 	 if(isset($_GET['id']) && !empty($_GET['id'])){
 	 	//判断是否存在该id对应的投票主题
@@ -35,40 +30,47 @@
 								 	DESC
 	 							");
 	 }
-	 //进行投票
+	 $result_1= mysqlFetchArray("SELECT * FROM `vt_theme_{$_GET['id']}` WHERE `student_id`='{$_SESSION['student_id']}'");
+	 if($result_1 != NULL)
+	 {
+		alertLocation('該主題你已投票過!', 'index.php');
+	 }
+	 //進行投票
 	 if(!empty($_POST['vote'])){
 
-	 	if(empty($_POST['list'])){
+	 	if(empty($_POST['list']) || empty($_POST['interview']) ){
 	 		alertBack('你没有選擇投票選項,請選擇!');
 	 	}
-	 	//同ip限時投票
-	 	//$nowTime =
-	 	$ipInfo = array();
-	 	$ipInfo['title'] = mysql_real_escape_string($_POST['title']);
-	 	$ipInfo['listid'] = mysql_real_escape_string($_POST['list']);
-	 	$ipInfo['ip'] = mysql_real_escape_string($_SERVER['REMOTE_ADDR']);
-	 	$ipInfo['themeid'] = $_POST['themeid'];
-	 	mysqlQuery("INSERT INTO `vt_ip`(
-										 	`vt_title`,
-										 	`vt_listid`,
-										 	`vt_ip`,
-										 	`vt_time`
+	 	$voteInfo = array();
+		$voteInfo['student_id']= mysql_real_escape_string($_SESSION['student_id']);
+		$voteInfo['student_vote_id'] = mysql_real_escape_string($_POST['list']);
+		$voteInfo['student_interview'] = mysql_real_escape_string($_POST['interview']);
+	 	$voteInfo['ip'] = mysql_real_escape_string($_SERVER['REMOTE_ADDR']);
+	 	$voteInfo['themeid'] = $_POST['themeid'];
+	 	mysqlQuery("INSERT INTO `vt_theme_{$_GET['id']}`(
+										 	`student_id`,
+										 	`student_vote_id`,
+											`student_interview`,
+										 	`ip`,
+										 	`vote_time`
 									   )
 								 VALUES(
-										 	'{$ipInfo['title']}',
-										 	'{$ipInfo['listid']}',
-										 	'{$ipInfo['ip']}',
-										 	NOW()
+										 	'{$voteInfo['student_id']}',
+										 	'{$voteInfo['student_vote_id']}',
+											'{$voteInfo['student_interview']}',
+										 	'{$voteInfo['ip']}',
+										 	localtime()
 									   )
 				");
 
 	 	if(mysql_affected_rows() == 1){
 	 		//$id = mysql_insert_id();
 	 		//$firstTime = time();
-	 		mysqlQuery("UPDATE `vt_list` SET `vt_count`=`vt_count`+1 WHERE `vt_id`='{$ipInfo['listid']}'");
+	 		mysqlQuery("UPDATE `vt_list` SET `vt_count`=`vt_count`+1 WHERE `vt_id`='{$voteInfo['student_vote_id']}'");
 	 		//mysqlQuery("UPDATE `vt_ip` SET `vt_timelimit`='{$firstTime}' WHERE `vt_id`='{$id}'");
 	 		mysql_close($conn);
-	 		alertLocation('投票成功!', 'vote_detail.php?id='.$ipInfo['themeid']);
+			//mysqlQuery("INSERT INTO `vt_theme_{$_GET['id']}`(`student_id`,`student_vote`,`student_interview`,`ip`,`vote_time`) VALUES('{$signupInfo['student_id']}','{$signupInfo['name']}','{$signupInfo['password']}','{$_SERVER['REMOTE_ADDR']}',NOW())");
+	 		alertLocation('投票成功!', 'result.php?id='.$voteInfo['themeid']);
 	 	}elseif(mysql_affected_rows() == 0){
 	 		mysql_close($conn);
 	 		alertBack('投票失敗!');
@@ -135,11 +137,20 @@ setInterval(function() {
 							<?php
 								}
 							?>
-							<tr>
-								<td class="subbtm" colspan="2"><input type="submit" name="vote" value="投票" /></td>
-							</tr>
 						</tbody>
 					</table>
+					<table>
+					<h4>是否接受我們的訪問，我們將會以電子郵件聯絡你。</h4>
+					<tr>
+						<td class="list"><input type="radio" name="interview" value="2" />是</td>
+					</tr>
+					<tr>
+						<td class="list"><input type="radio" name="interview" value="1" />否</td>
+					</tr>
+					<tr>
+						<td class="subbtm" colspan="2"><input type="submit" name="vote" value="投票" /></td>
+					</tr>
+				</table>
 				</form>
 			</div>
 			<div class="clear"></div>
