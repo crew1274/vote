@@ -63,7 +63,9 @@
 	<link rel="stylesheet" type="text/css" href="styles/index.css" />
 	<link rel="stylesheet" type="text/css" href="styles/add_vote_list.css" />
 	<script type="text/javascript" src="js/add_vote_list.js"></script>
-	<title>添加投票主題</title>
+	<link rel="shortcut icon" href="../images/favico.ico"/>
+	<link rel="bookmark" href="/..images/favico.ico"/>
+	<title>不可錯過的10門課票選</title>
 </head>
 <body>
 	<div id="container">

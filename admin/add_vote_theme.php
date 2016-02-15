@@ -18,9 +18,9 @@
 											 	'{$voteTheme['admin']}',
 											 	localtime())
 									 	");
-		$max=mysqlFetchArray("SELECT max(vt_id) FROM vt_theme");
-		$max++;
-		mysqlQuery("CREATE TABLE `vt_vote`.`vt_them_{$max}` ( `ai` INT NOT NULL AUTO_INCREMENT , `student_id` VARCHAR(11) NOT NULL , `student_vote_id` INT(4) NOT NULL , `student_interview` TINYINT(2) NOT NULL , `ip` VARCHAR(20) NOT NULL , `vote_time` DATE NOT NULL , PRIMARY KEY (`ai`)) ");
+		$max=mysqlFetchArray("SELECT * FROM vt_theme, (SELECT MAX(vt_id) AS max_alias FROM vt_theme) as anotheralias  WHERE vt_id=max_alias");
+		$max['vt_id']++;
+		mysqlQuery("CREATE TABLE `vt_vote`.`vt_theme_{$max['vt_id']}` ( `ai` INT NOT NULL AUTO_INCREMENT , `student_id` VARCHAR(11) NOT NULL , `student_vote_id` INT(4) NOT NULL , `student_interview` TINYINT(2) NOT NULL , `ip` VARCHAR(20) NOT NULL , `vote_time` DATE NOT NULL , PRIMARY KEY (`ai`)) ");
 
 	/* 	if(mysql_affected_rows() == 1){
 	 		mysql_close($conn);*/
@@ -39,7 +39,9 @@
 	<link rel="stylesheet" type="text/css" href="styles/index.css" />
 	<link rel="stylesheet" type="text/css" href="styles/add_vote_theme.css" />
 	<script type="text/javascript" src="js/add_vote_theme.js"></script>
-	<title>添加投票主題</title>
+	<link rel="shortcut icon" href="../images/favico.ico"/>
+	<link rel="bookmark" href="/..images/favico.ico"/>
+	<title>不可錯過的10門課票選</title>
 </head>
 <body>
 	<div id="container">

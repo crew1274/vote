@@ -44,7 +44,9 @@
 <link rel="stylesheet" type="text/css" href="styles/vote-manager.css" />
 <link rel="stylesheet" type="text/css" href="styles/page_list_text.css" />
 <script type="text/javascript" src="js/index.js"></script>
-<title>後台管理--投票主題管理</title>
+<link rel="shortcut icon" href="../images/favico.ico"/>
+<link rel="bookmark" href="/..images/favico.ico"/>
+<title>不可錯過的10門課票選</title>
 </head>
 <body>
 	<div id="container">
@@ -64,8 +66,8 @@
 				<table cellspacing="0" cellpadding="0" border="0">
 					<tbody>
 						<tr>
-							<th>主题名稱</th>
-							<th>發布人</th>
+							<th>主題名稱</th>
+							<th>發佈人</th>
 							<th>開始時間</th>
 							<th>結束時間</th>
 							<th>操作</th>

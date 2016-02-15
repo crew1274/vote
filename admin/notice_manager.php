@@ -43,7 +43,9 @@
 <link rel="stylesheet" type="text/css" href="styles/notice-manager.css" />
 <link rel="stylesheet" type="text/css" href="styles/page_list_text.css" />
 <script type="text/javascript" src="js/index.js"></script>
-<title>後台管理--公告管理</title>
+<link rel="shortcut icon" href="../images/favico.ico"/>
+<link rel="bookmark" href="/..images/favico.ico"/>
+<title>不可錯過的10門課票選</title>
 </head>
 <body>
 	<div id="container">

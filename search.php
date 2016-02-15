@@ -29,7 +29,9 @@
 <link rel="stylesheet" type="text/css" href="styles/style.css" />
 <link rel="stylesheet" type="text/css" href="styles/index.css" />
 <link rel="stylesheet" type="text/css" href="styles/search-detail.css" />
-<title>投票系统--搜尋</title>
+<link rel="shortcut icon" href="images/favico.ico"/>
+<link rel="bookmark" href="images/favico.ico"/>
+<title>不可錯過的10門課票選</title>
 </head>
 <body>
 	<div id="container">

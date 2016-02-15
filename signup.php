@@ -8,7 +8,6 @@
 		$signupInfo['password'] = mysql_real_escape_string(chkNcontent($_POST['password'],2,40));
 		$signuptInfo['password_confrim'] = mysql_real_escape_string(chkNcontent($_POST['password_confrim'],2,40));
 		$signupInfo['phone'] = mysql_real_escape_string(chkNcontent($_POST['phone'],10,10));
-		$signupInfo['class'] = mysql_real_escape_string(chkNcontent($_POST['class'],2,10));
 		if($signupInfo['password'] != $signuptInfo['password_confrim'])
 		{mysql_close($conn);
 		alertBack('請確認密碼是否相符!');}
@@ -17,8 +16,8 @@
 		{mysql_close($conn);
  	 	alertBack('此學號已註冊過!');
  	 	}
-	 	mysqlQuery("INSERT INTO `vt_student`(`student_id`,`student_name`,`student_password`,`student_phone`,`student_class`,`signup_ip`,`signup_time`)
-		VALUES('{$signupInfo['student_id']}','{$signupInfo['name']}','{$signupInfo['password']}','{$signupInfo['phone']}','{$signupInfo['class']}','{$_SERVER['REMOTE_ADDR']}',localtime())");
+	 	mysqlQuery("INSERT INTO `vt_student`(`student_id`,`student_name`,`student_password`,`student_phone`,`signup_ip`,`signup_time`)
+		VALUES('{$signupInfo['student_id']}','{$signupInfo['name']}','{$signupInfo['password']}','{$signupInfo['phone']}','{$_SERVER['REMOTE_ADDR']}',localtime())");
 
 	 	if(mysql_affected_rows() == 1){
 	 		mysql_close($conn);
@@ -56,7 +55,8 @@ setInterval(function() {
 <link rel="stylesheet" type="text/css" href="styles/style.css" />
 <link rel="stylesheet" type="text/css" href="styles/index.css" />
 <link rel="stylesheet" type="text/css" href="styles/guestbook.css" />
-
+<link rel="shortcut icon" href="images/favico.ico"/>
+<link rel="bookmark" href="images/favico.ico"/>
 <title>不可錯過的10門課票選</title>
 </head>
 <body onload="timenow()" >
@@ -78,7 +78,6 @@ setInterval(function() {
 						<dd><h5>請確實填寫，日後將作為領獎通知及依據。</h5></dd>
 						<dd><label>學號:<input type="text" name="student_id" class="student_id"/></label></dd>
 						<dd><label>姓名:<input type="text" name="name" class="name"/></label></dd>
-						<dd><label>系級:<input type="text" name="class" class="class"/></label></dd>
 						<dd><label>密碼:<input type="password" name="password" class="password"/></label></dd>
 						<dd><label>確認密碼:<input type="password" name="password_confrim" class="password_confrim"/></label></dd>
 						<dd><label>手機號碼:<input type="text" name="phone" class="phone"/></label></dd>
