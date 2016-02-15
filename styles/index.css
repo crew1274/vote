@@ -253,7 +253,7 @@
 	word-break:break-all;
 	overflow:hidden;
 	width:200px;
-	height:20px;
+	height:30px;
 	line-height:15px;
 	font-size:12px;
 	text-indent:10px;
@@ -264,5 +264,8 @@
 	height:20px;
 	width:180px;
 	display:block;
-	color:#000;
+  color:#444444;
+}
+#main-right #notice dd:hover{
+  color:#FF0000;
 }

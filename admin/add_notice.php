@@ -18,7 +18,7 @@
 									VALUES(
 											 	'{$noticeInfo['title']}',
 											 	'{$noticeInfo['content']}',
-											 	'{$_SESSION['user']}',
+											 	'{$_SESSION['admin']}',
 											 	NOW()
 											)
 					");
@@ -58,7 +58,7 @@
 				<form action="" method="post" name="noticeform">
 					<dl>
 						<dt>添加系統公告</dt>
-						<dd><label>公告標题:<input type="text" name="ntitle" class="title"/></label></dd>
+						<dd><label>公告標題:<input type="text" name="ntitle" class="title"/></label></dd>
 						<dd><label>公告内容:<textarea name="ncontent"></textarea></label></dd>
 						<dd><input type="submit" name="notice" value="添加公告" /></dd>
 						<dd><a href="javascript:;" onclick="history.go(-1);">返回</a></dd>

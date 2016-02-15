@@ -6,7 +6,7 @@
 	 if(!empty($_POST['addtheme'])){
 	 	$voteTheme = array();
 	 	$voteTheme['title'] = mysql_real_escape_string($_POST['theme']);
-	 	$voteTheme['admin'] = $_SESSION['user'];
+	 	$voteTheme['admin'] = $_SESSION['admin'];
 
 	 	mysqlQuery("INSERT INTO `vt_theme`(
 											 	`vt_title`,
@@ -16,16 +16,19 @@
 	 								VALUES(
 											 	'{$voteTheme['title']}',
 											 	'{$voteTheme['admin']}',
-											 	NOW())
+											 	localtime())
 									 	");
+		$max=mysqlFetchArray("SELECT max(vt_id) FROM vt_theme");
+		$max++;
+		mysqlQuery("CREATE TABLE `vt_vote`.`vt_them_{$max}` ( `ai` INT NOT NULL AUTO_INCREMENT , `student_id` VARCHAR(11) NOT NULL , `student_vote_id` INT(4) NOT NULL , `student_interview` TINYINT(2) NOT NULL , `ip` VARCHAR(20) NOT NULL , `vote_time` DATE NOT NULL , PRIMARY KEY (`ai`)) ");
 
-	 	if(mysql_affected_rows() == 1){
-	 		mysql_close($conn);
+	/* 	if(mysql_affected_rows() == 1){
+	 		mysql_close($conn);*/
 	 		alertLocation('添加主題成功!', 'vote_manager.php');
-	 	}elseif(mysql_affected_rows() == 0){
+	 /*	}elseif(mysql_affected_rows() == 0){
 	 		mysql_close($conn);
 	 		alertBack('添加主題失敗!');
-	 	}
+	 	}*/
 	 }
 ?>
 <!DOCTYPE>
