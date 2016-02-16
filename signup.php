@@ -2,12 +2,12 @@
 	 require 'includes/comm.inc.php';
     if(!empty($_POST['submit'])){
 	 	$signupInfo = array();
-	 	$str = mysql_real_escape_string(chkNtitle($_POST['student_id'],9,11));
+	 	$str = mysql_real_escape_string(chk($_POST['student_id'],9,14,'學號'));
 		$signupInfo['student_id']= strtoupper($str);
-	 	$signupInfo['name'] = mysql_real_escape_string(chkNcontent($_POST['name'],2,30));
-		$signupInfo['password'] = mysql_real_escape_string(chkNcontent($_POST['password'],2,40));
-		$signuptInfo['password_confrim'] = mysql_real_escape_string(chkNcontent($_POST['password_confrim'],2,40));
-		$signupInfo['phone'] = mysql_real_escape_string(chkNcontent($_POST['phone'],10,10));
+	 	$signupInfo['name'] = mysql_real_escape_string(chk($_POST['name'],2,30,'姓名'));
+		$signupInfo['password'] = mysql_real_escape_string(chk($_POST['password'],2,40,'密碼'));
+		$signuptInfo['password_confrim'] = mysql_real_escape_string(chk($_POST['password_confrim'],2,40,'密碼'));
+		$signupInfo['phone'] = mysql_real_escape_string(chk($_POST['phone'],10,13,'電話'));
 		if($signupInfo['password'] != $signuptInfo['password_confrim'])
 		{mysql_close($conn);
 		alertBack('請確認密碼是否相符!');}
@@ -62,7 +62,7 @@ setInterval(function() {
 <body onload="timenow()" >
 	<div id="container">
 		<div id="logo">
-			Logo
+			<img src="images/logo.jpg">
 		</div>
 		<?php
 			include 'includes/nav.inc.php';

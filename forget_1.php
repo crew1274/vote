@@ -1,30 +1,33 @@
 <?php
 	 require 'includes/comm.inc.php';
+	  $student_id= $_GET["student"];
+    $rs = mysqlFetchArray("SELECT * FROM `vt_student` WHERE `student_id` ='{$student_id}' ");
+		if($rs== NULL)
+			{
+				mysql_close($conn);
+				alertLocation('請檢查網址是否錯誤!', 'index.php');
+			}
+    $password=sha1($rs['student_password']);
     if(!empty($_POST['submit'])){
-	 	$signupInfo = array();
-	 	$str = mysql_real_escape_string(chkNtitle($_POST['student_id'],9,11));
-		$signupInfo['student_id']= strtoupper($str);
-	 	$signupInfo['name'] = mysql_real_escape_string(chkNcontent($_POST['name'],2,30));
-		$signupInfo['password'] = mysql_real_escape_string(chkNcontent($_POST['password'],2,40));
-		$signuptInfo['password_confrim'] = mysql_real_escape_string(chkNcontent($_POST['password_confrim'],2,40));
-		if($signupInfo['password'] != $signuptInfo['password_confrim'])
+	 	$authentication = $_POST['authentication'];
+		if($authentication != $password)
+		{
+			mysql_close($conn);
+			alertBack('密碼驗證碼錯誤!');
+		}
+		$updateInfo['password'] = mysql_real_escape_string(chk($_POST['new_password'],2,40,'密碼'));
+		$updateInfo['password_confrim'] = mysql_real_escape_string(chk($_POST['new_password_confrim'],2,40,'密碼'));
+		if($updateInfo['password'] != $updateInfo['password_confrim'])
 		{mysql_close($conn);
-		alertBack('請確認密碼是否相符!');}
-		$rs = mysqlFetchArray("SELECT `student_id` FROM `vt_student` WHERE `student_id` ='{$signupInfo['student_id']}' ");
- 	 	if($rs != NULL)
-		{mysql_close($conn);
- 	 	alertBack('此學號已註冊過!');
- 	 	}
-	 	mysqlQuery("INSERT INTO `vt_student`(`student_id`,`student_name`,`student_password`,`signup_ip`,`signup_time`) VALUES('{$signupInfo['student_id']}','{$signupInfo['name']}','{$signupInfo['password']}','{$_SERVER['REMOTE_ADDR']}',NOW())");
-
+		alertBack('請確認密碼是否相符!');
+	  }
+	 mysqlQuery("UPDATE `vt_student` SET `student_password`='{$updateInfo['password']}' WHERE `student_id`='{$student_id}'");
 	 	if(mysql_affected_rows() == 1){
 	 		mysql_close($conn);
-			$encrypt=encrypt($signupInfo['student_id'],50150);
-			send_mail($signupInfo['student_id'],$signupInfo['name'],$signupInfo['password'],$encrypt);
-	 		alertLocation('註冊成功!請前往學校信箱收取驗證郵件。', 'index.php');
+	 		alertLocation('密碼更新成功!', 'index.php');
 	 	}else{
 	 		mysql_close($conn);
-	 		alertBack('註冊失敗!如有問題請連絡我們。');
+	 		alertBack('密碼更新失敗!如有問題請連絡我們。');
 	 	}
 	}
 ?>
@@ -60,7 +63,7 @@ setInterval(function() {
 <body onload="timenow()" >
 	<div id="container">
 		<div id="logo">
-			Logo
+			<img src="images/logo.jpg">
 		</div>
 		<?php
 			include 'includes/nav.inc.php';
@@ -72,10 +75,13 @@ setInterval(function() {
 			<div id="addguest">
 				<form action="" method="post" name="guestform">
 					<dl>
-						<dd><h5>請填寫學號，我們將會寄發信件到此信箱。</h5></dd>
-						<dd><label>學號:<input type="text" name="student_id" class="student_id"/></label></dd>
+						<dd><h5>請填寫我們寄發信件到信箱的驗證碼</h5></dd>
+						<dd><label>密碼驗證碼:<input type="text" name="authentication"/></label></dd>
+						<dd><h5>請填寫你的新密碼</h5></dd>
+						<dd><label>密碼:<input type="password" name="new_password"/></label></dd>
+						<dd><label>確認密碼:<input type="password" name="new_password_confrim"/></label></dd>
 						</form>
-						<dd><input type="submit" name="submit" value="取得密碼驗證信" /></dd>
+						<dd><input type="submit" name="submit" value="更新密碼" /></dd>
 						<dd><a href="javascript:;" onclick="history.go(-1);">返回</a></dd>
 					</dl>
 			</div>

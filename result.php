@@ -53,7 +53,7 @@ setInterval(function() {
 <body>
 	<div id="container">
 		<div id="logo">
-			Logo
+			<img src="images/logo.jpg">
 		</div>
 		<?php
 			include 'includes/nav.inc.php';

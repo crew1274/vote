@@ -64,13 +64,13 @@
 	<link rel="stylesheet" type="text/css" href="styles/add_vote_list.css" />
 	<script type="text/javascript" src="js/add_vote_list.js"></script>
 	<link rel="shortcut icon" href="../images/favico.ico"/>
-	<link rel="bookmark" href="/..images/favico.ico"/>
+	<link rel="bookmark" href="../images/favico.ico"/>
 	<title>不可錯過的10門課票選</title>
 </head>
 <body>
 	<div id="container">
 		<div id="logo">
-			Logo
+			<img src="../images/logo.jpg">
 		</div>
 		<?php
 			include 'includes/adminnav.inc.php';

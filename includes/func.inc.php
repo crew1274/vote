@@ -33,6 +33,39 @@ function decrypt($data, $key)
     return $str;
 }
 
+function forget_password_send_mail($student_id,$student_name,$password)
+{
+  require ('PHPMailer/PHPMailerAutoload.php');
+	date_default_timezone_set('Asia/Taipei');
+	mb_internal_encoding('UTF-8');
+	$mail = new PHPMailer;
+	$mail->isSMTP();
+	$mail->SMTPDebug = 2;
+	$mail->Debugoutput = 'html';
+	$mail->Host = 'smtp.gmail.com';
+	$mail->Port = 587;
+	$mail->SMTPSecure = 'tls';
+	$mail->SMTPAuth = true;
+	$mail->Username = "50156gm@gmail.com";
+	$mail->Password = "gmgm50156";
+	$mail->setFrom('50156gm@gmail.com', '國立成功大學課務組');
+	$mail->addReplyTo('50156gm@gmail.com', '國立成功大學課務組');
+	$mail->addAddress($student_id.'@mail.ncku.edu.tw',$student_id);
+	$mail->Subject = '不可錯過十門課投票系統密碼驗證信';
+  $mail->Body = '你好,'.$student_name.'同學:<br>
+  你申請密碼驗證碼是:<b>'.$password.'</b><br>
+  <a href="http://140.116.39.225/vote/forget_1.php?student='.$student_id.'">請點此連結繼續完成密碼更新的流程!</a>
+  <br><br>
+  國立成功大學課務組';
+  $mail->AltBody = '你好,'.$student_name.'同學:<br>
+  你申請密碼驗證碼是:<b>'.$password.'</b><br>
+  <a href="http://140.116.39.225/vote/forget_1.php?student='.$student_id.'">請點此連結繼續完成密碼更新的流程!</a><br>
+  如果你沒有申請此服務，請忽略本信，謝謝。<br><br>
+  國立成功大學課務組';
+  if ($mail->send()) {
+  }
+}
+
 function send_mail($student_id,$student_name,$student_password,$encrypt)
 {
   require ('PHPMailer/PHPMailerAutoload.php');
@@ -51,7 +84,7 @@ function send_mail($student_id,$student_name,$student_password,$encrypt)
 	$mail->setFrom('50156gm@gmail.com', '國立成功大學課務組');
 	$mail->addReplyTo('50156gm@gmail.com', '國立成功大學課務組');
 	$mail->addAddress($student_id.'@mail.ncku.edu.tw',$student_id);
-	$mail->Subject = '投票系統驗證信';
+	$mail->Subject = '不可錯過十門課投票系統驗證信';
   $mail->Body = '你好,'.$student_name.'同學:<br>
   謝謝你參與我們的投票活動，<a href="http://140.116.39.225/vote/authentication.php?authentication='.$encrypt.'">請點此連結選來驗證你的帳號!</a><br>
   並請記得你的密碼<i>'.$student_password.'</i>，方便日後登入網站參與其他的投票活動，謝謝。<br><br>
@@ -63,11 +96,22 @@ function send_mail($student_id,$student_name,$student_password,$encrypt)
   if ($mail->send()) {
   }
 }
-/* 服务端检查用户输入的用户名是否合法
- * @param $user	用户名
- * @param $min	最小长度
- * @param $max	最大长度
- * */
+
+function chk($par,$min,$max,$field){
+	if(empty($par)){
+		alertBack($field.'不能為空!');
+	}
+	if(mb_strlen($par,'UTF-8') < $min || mb_strlen($par,'UTF-8') > $max){
+		alertBack($field.'長度不能小於'.$min.'位或大於'.$max.'位!');
+	}
+	$preg = '/[<>\/\\\ \  ]/';
+	if(preg_match($preg , $title)){
+		alertBack($field.'不能包含敏感字串!');
+	}
+	return $par;
+}
+
+
 function checkUser($user,$min,$max){
 	$user = trim($user);
 	if(empty($user)){
@@ -84,11 +128,6 @@ function checkUser($user,$min,$max){
 	return $user;
 }
 
-/* 服务端检查用户输入的密码是否合法
- * @param $pass	密码
-* @param $min	最小长度
-* @param $max	最大长度
-* */
 function checkPass($pass,$min,$max){
 	if(empty($pass)){
 		alertBack('密碼不能為空!');
@@ -197,14 +236,13 @@ if(empty($describe)){
 		return $describe;
 	}
 
-
 				//搜索关键字
-				function chkSearchKeyword($keyword){
-				if(empty($keyword)){
-			alertBack('搜尋關鍵字不能為空!');
-				}
-		return $keyword;
-				}
+function chkSearchKeyword($keyword){
+	if(empty($keyword)){
+	alertBack('搜尋關鍵字不能為空!');
+		}
+	return $keyword;
+		}
 
 	//搜索类型
 function chkSearchType($type){
@@ -214,11 +252,6 @@ function chkSearchType($type){
 	return $type;
 }
 
-
-/*判断文件上传的扩展名是否符合要求
-*@param $type 允许的文件类型
-*@param $file 文件路径
-*/
 function chkFileExtenName($type,$file){
 	$extName = strrchr($file, '.');		//获取文件的扩展名
 	$str = '';
@@ -234,12 +267,6 @@ function chkFileExtenName($type,$file){
 	}
 }
 
-					//判断文件上传是否错误
-					/*
-						*
-						*@param $file 	文件上传错误代码
-							*
-							*/
 							function chkFileError($file){
 							if($file > 0){
 							switch ($file) {
@@ -258,7 +285,6 @@ function chkFileExtenName($type,$file){
 							}
 							}
 							}
-
 
 /*简单分页函数*/
 function pageList($info,$lj,$pagenum,$page){

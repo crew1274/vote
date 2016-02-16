@@ -1,22 +1,23 @@
 <?php
 	 require 'includes/comm.inc.php';
-
-	 //添加留言
-	 if(!empty($_POST['guest'])){
-	 	$guestInfo = array();
-	 	$guestInfo['title'] = mysql_real_escape_string(chkNtitle($_POST['title'],2,50));
-	 	$guestInfo['content'] = mysql_real_escape_string(chkNcontent($_POST['content'],10,255));
-
-	 	mysqlQuery("INSERT INTO `vt_guest`(`vt_title`,`vt_content`,`vt_ip`,`vt_time`) VALUES('{$guestInfo['title']}','{$guestInfo['content']}','{$_SERVER['REMOTE_ADDR']}',NOW())");
-
+    if(!empty($_POST['submit'])){
+	 	$str = mysql_real_escape_string(chk($_POST['student_id'],9,14,'學號'));
+		$student_id= strtoupper($str);
+		$rs = mysqlFetchArray("SELECT * FROM `vt_student` WHERE `student_id` ='{$student_id}' ");
+ 	 	if($rs == NULL)
+		{mysql_close($conn);
+ 	 	alertBack('無效學號!如有問題請連絡我們。');
+ 	 	}
 	 	if(mysql_affected_rows() == 1){
-	 		mysql_close($conn);
-	 		alertLocation('留言成功!謝謝!', 'index.php');
+      $password=sha1($rs['student_password']);
+			forget_password_send_mail($student_id,$rs['student_name'],$password);
+			mysql_close($conn);
+	 		alertLocation('請前往學校信箱收取驗證郵件。', 'index.php');
 	 	}else{
 	 		mysql_close($conn);
-	 		alertBack('留言失败!');
+	 		alertBack('驗證錯誤!如有問題請連絡我們。');
 	 	}
-	 }
+	}
 ?>
 <script type="text/javascript">
 setInterval(function() {
@@ -47,7 +48,7 @@ setInterval(function() {
 <link rel="bookmark" href="images/favico.ico"/>
 <title>不可錯過的10門課票選</title>
 </head>
-<body>
+<body onload="timenow()" >
 	<div id="container">
 		<div id="logo">
 			<img src="images/logo.jpg">
@@ -62,13 +63,12 @@ setInterval(function() {
 			<div id="addguest">
 				<form action="" method="post" name="guestform">
 					<dl>
-						<dt>新增留言建議</dt>
-						<dd><label>留言標題:<input type="text" name="title" class="title"/></label></dd>
-						<dd><label>留言内容:<textarea name="content"></textarea></label></dd>
-						<dd><input type="submit" name="guest" value="留言" /></dd>
+						<dd><h5>請填寫學號，我們將會寄發信件到此信箱。</h5></dd>
+						<dd><label>學號:<input type="text" name="student_id" class="student_id"/></label></dd>
+						</form>
+						<dd><input type="submit" name="submit" value="取得密碼驗證信" /></dd>
 						<dd><a href="javascript:;" onclick="history.go(-1);">返回</a></dd>
 					</dl>
-				</form>
 			</div>
 			<div class="clear"></div>
 		</div>

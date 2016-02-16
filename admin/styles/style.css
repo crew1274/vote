@@ -4,11 +4,11 @@ body,ul,ol,li,td,tr,p,a,form,input,dl,dt,dd,h2,h3,h4,textarea{
 	margin:0;
 	padding:0;
 	}
-	
+
 body{
 	background-color:#FFF;
-	}	
-	
+	}
+
 h2{
 	font-size:14px;
 	height:25px;
@@ -16,7 +16,7 @@ h2{
 	text-indent:10px;
 	background:#EEE;
 }
-	
+
 a{
 	text-decoration:none;
 }
@@ -28,7 +28,7 @@ a img{
 ul,li,ol,dl,dt,dd{
 	list-style:none;
 	}
-	
+
 .clear{
 	float:none;
 	clear:both;
@@ -48,7 +48,7 @@ ul,li,ol,dl,dt,dd{
 }
 
 #logo{
-	height:136px;
+	height:300px;
 	text-align:center;
 	margin-bottom:5px;
 	border:1px #D6D6D6 solid;
@@ -77,5 +77,3 @@ ul,li,ol,dl,dt,dd{
 #footer p.p2 a{
 	color:#F60;
 }
-
-

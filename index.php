@@ -4,9 +4,9 @@
 	 $queryNotice = mysqlQuery("SELECT `vt_title`,`vt_content` FROM `vt_notice` ORDER BY `vt_id` DESC LIMIT 6");
 	 if(!empty($_POST['login'])){
  		$loginInfo = array();
- 		$str = checkUser($_POST['student_id'],8,20);
+ 		$str = chk($_POST['student_id'],9,13,'學號');
 		$loginInfo['student_id']= strtoupper($str);
- 		$loginInfo['pass'] = chkNcontent($_POST['pass'],2,20);
+ 		$loginInfo['pass'] = chk($_POST['pass'],2,40,'密碼');
  		$result = mysqlFetchArray("SELECT * FROM`vt_student`
  		                                WHERE`student_id`='{$loginInfo['student_id']}'
  											              AND `student_password`='{$loginInfo['pass']}'

@@ -52,15 +52,13 @@ setInterval(function() {
 <link rel="stylesheet" type="text/css" href="styles/style.css" />
 <link rel="stylesheet" type="text/css" href="styles/index.css" />
 <link rel="stylesheet" type="text/css" href="styles/guestbook.css" />
-<link rel="shortcut icon" href="/favico.ico"/>
-<link rel="bookmark" href="/favico.ico"/>
+
 <title>投票系統驗證</title>
 </head>
-
 <body>
 	<div id="container">
 		<div id="logo">
-			Logo
+			<img src="images/logo.jpg">
 		</div>
 		<?php
 			include 'includes/nav.inc.php';
