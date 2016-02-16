@@ -13,7 +13,7 @@
 	 }else{
 	 	$page = 1;
 	 }
-	 $pagelimit = 2;
+	 $pagelimit = 8;
 
 	 $query = mysqlQuery("SELECT `vt_id` FROM `vt_theme`");
 	 $counter = mysql_num_rows($query);
@@ -31,7 +31,7 @@
 
 	 //$sql = "select `tc_id`,`tc_username`,`tc_sex`,`tc_face` from `tc_user` order by tc_reg_time desc limit $pag,$pagelimit";
 	 //$query = mysql_query($sql);
-	$query = mysqlQuery("SELECT `vt_id`,`vt_title`,`vt_admin`,`vt_time`,`vt_deadtime` FROM `vt_theme` ORDER BY `vt_time` DESC LIMIT $pag,$pagelimit");
+	$query = mysqlQuery("SELECT `vt_id`,`vt_title`,`vt_admin`,`vt_time`,`vt_deadtime` FROM `vt_theme` ORDER BY `vt_id` DESC LIMIT $pag,$pagelimit");
 
 
 ?>

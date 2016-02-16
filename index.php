@@ -1,6 +1,6 @@
 <?php
 	 require 'includes/comm.inc.php';
-	 $queryTheme = mysqlQuery("SELECT `vt_id`,`vt_title`,`vt_time` ,`vt_deadtime`FROM `vt_theme` ORDER BY `vt_deadtime` DESC");
+	 $queryTheme = mysqlQuery("SELECT `vt_id`,`vt_title`,`vt_time` ,`vt_deadtime`FROM `vt_theme` ORDER BY `vt_id` DESC");
 	 $queryNotice = mysqlQuery("SELECT `vt_title`,`vt_content` FROM `vt_notice` ORDER BY `vt_id` DESC LIMIT 6");
 	 if(!empty($_POST['login'])){
  		$loginInfo = array();
@@ -24,24 +24,6 @@
  		}
  	}
 ?>
-<script type="text/javascript">
-setInterval(function() {
-    var currentTime = new Date ( );
-		var currentYears = currentTime.getFullYear ( );
-		var currentMonth = currentTime.getMonth ( );
-		var currentDays = currentTime.getDate ( );
-    var currentHours = currentTime.getHours ( );
-    var currentMinutes = currentTime.getMinutes ( );
-    var currentSeconds = currentTime.getSeconds ( );
-    currentMinutes = ( currentMinutes < 10 ? "0" : "" ) + currentMinutes;
-    currentSeconds = ( currentSeconds < 10 ? "0" : "" ) + currentSeconds;
-    var timeOfDay = ( currentHours < 12 ) ? "AM" : "PM";
-    currentHours = ( currentHours > 12 ) ? currentHours - 12 : currentHours;
-    currentHours = ( currentHours == 0 ) ? 12 : currentHours;
-    var currentTimeString = currentYears+"/"+currentMonth+"/"+currentDays+"  "+timeOfDay+" "+currentHours + ":" + currentMinutes + ":" + currentSeconds;
-    document.getElementById("timer").innerHTML = currentTimeString;
-}, 1000);
- </script>
 <!DOCTYPE>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -111,14 +93,15 @@ setInterval(function() {
 							<td class="votetime"><?php $str = explode(' ',$rsTheme['vt_deadtime']); echo $str[0];?></td>
 							<td class="voters">
                <?php
-							 /*$localtime=localtime(time(), true));
-							 echo $rsTheme['vt_time'];
-							 if($localtime<$rsTheme['vt_time'])
+							 $ustart = strtotime($rsTheme['vt_time']);
+							 $uend = strtotime($rsTheme['vt_deadtime']);
+							 $localtime=time();
+							 if($localtime<$ustart)
 							 echo '尚未開放';
-							 else if ($localtime>$rsTheme['vt_time'] && $localtime<$rsTheme['vt_deadtime'])*/
+							 if ($localtime>$ustart && $localtime<$uend)
 							 echo '<a href="vote_detail.php?id='.$rsTheme['vt_id'].'">前往投票</a>';
-							/*else  if ($localtime>$rsTheme['vt_deadtime'])
-							 echo "投票截止";*/
+							 if ($localtime>$uend)
+							 echo "投票截止";
 								?>
 							</td>
 						</tr>

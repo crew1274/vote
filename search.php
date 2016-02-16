@@ -43,7 +43,7 @@
 		?>
 		<div id="main">
 			<div id="main-top">
-				<p>歡迎遊客(Ip:<span class="blue"><?php echo $_SERVER['REMOTE_ADDR']; ?></span>),現在時間是:<span class="blue"><?php echo date('Y-m-d',time())?></span></p>
+			<p>你現在登入的Ip是<span class="blue"><?php echo'<b>'. $_SERVER['REMOTE_ADDR'].'</b>'; ?></span>,現在時間是:<span class="blue"><b id=timer></b></span></p>
 			</div>
 			<div id="searchdetail">
 				<h4>搜尋[ <span class="blue"><?php echo $_GET['keyword']; ?></span> ]的所有结果</h4>

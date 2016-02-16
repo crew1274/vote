@@ -57,7 +57,9 @@
 			?>
 			<div id="add-theme">
 				<form action="" method="post">
-					<label>投票主題:<input type="text" name="theme" value="請輸入投票主題" class="add"/></label>
+					<label>請輸入投票主題:<input type="text" name="theme" value="" class="add"/></label><br>
+					<label>請選擇投票主題開始時間:<input type="text" name="theme" value="" class="add"/></label><br>
+					<label>請選擇投票主題結束時間:<input type="text" name="theme" value="" class="add"/></label><br>
 					<input type="submit" name="addtheme" value="添加主題" />&nbsp;&nbsp;<a href="javascript:;" onclick="history.back();">返回</a>
 				</form>
 			</div>

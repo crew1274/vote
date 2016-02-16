@@ -7,7 +7,7 @@
 setInterval(function() {
     var currentTime = new Date ( );
 		var currentYears = currentTime.getFullYear ( );
-		var currentMonth = currentTime.getMonth ( );
+		var currentMonth = currentTime.getMonth ( )+1;
 		var currentDays = currentTime.getDate ( );
     var currentHours = currentTime.getHours ( );
     var currentMinutes = currentTime.getMinutes ( );

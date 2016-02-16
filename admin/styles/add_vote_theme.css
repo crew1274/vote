@@ -1,8 +1,8 @@
 @CHARSET "UTF-8";
 
 #add-theme{
-	min-height:320px;
-	line-height:320px;
+	min-height:200px;
+	line-height:60px;
 	text-align:center;
 }
 

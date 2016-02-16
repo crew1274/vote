@@ -43,7 +43,7 @@ ul,li,ol,dl,dt,dd{
 }*/
 
 #container{
-	width:960px;
+	width:1000px;
 	margin:0 auto;
 }
 
@@ -55,9 +55,9 @@ ul,li,ol,dl,dt,dd{
 }
 
 #footer{
-	width:960px;
-	height:76px;
-	background:url(../images/footer.gif) no-repeat;
+	width:1000px;
+	height:180px;
+	background:url(../images/footer.jpg) no-repeat;
 	text-align:center;
 	margin-top:5px;
 }
