@@ -60,28 +60,29 @@
 #main-left{
 	margin-left:1px;
 	width:205px;
-	/* height:200px; */
+	height:300px;
 	border-right:1px #939393 solid;
 	margin-right:3px;
 	margin-bottom:10px;
 }
 
-/*最新公告 gonggao*/
+/* 登入區*/
 #main-left #gonggao{
 	height:160px;
 	width:200px;
 }
 
 #main-left #gonggao dt{
-	height:30px;
-	line-height:30px;
+	height:35px;
+	line-height:35px;
 	background:url(../images/login.png) no-repeat 0 0 ;
 	text-indent:40px;
 	border-bottom:2px #D6D6D6 solid;
-	padding-bottom:5px;
+	padding-bottom:3px;
 	font-size:16px;
 	color:#A54B1E;
 	font-weight:bold;
+	margin-top:10px;
 }
 
 #main-left #gonggao dd{
@@ -90,10 +91,11 @@
 	overflow:hidden;
 	width:200px;
 	height:20px;
-	line-height:20px;
-	font-size:12px;
-	text-indent:20px;
-	margin:2px 0;
+	line-height:25px;
+	font-size:10px;
+	text-indent:40px;
+	margin:0px 0;
+	color:##666666;
 }
 
 #main-left #gonggao dd a{
@@ -132,76 +134,83 @@
 	height:24px;
 	line-height:24px;
 	margin:5px 0;
-	color:blue;
+	color:#434343;
 	text-indent:20px;
 }
 
 
 /*main-mid*/
-#main-mid{
+
+#main-mid {
 	width:530px;
-	height:200px;
-	/* border:1px #93c993 solid; */
+	height:300px;
+	/*border:1px #93c993 solid; */
 	margin-right:6px;
 	margin-left:3px;
+	text-align:center
 }
 
-#main-mid table{
-	text-align:center;
+#main-mid #list {
+	width:530px;
+	height:290px;
+	/*border:1px #93c993 solid;*/
 }
 
-#main-mid table tr th{
+#main-mid #list table{
+	text-align:center
+}
+
+#main-mid  #list table tr th{
 	border-bottom:1px #000 solid;
 	height:24px;
 	line-height:24px;
 }
 
-#main-mid table tr td{
+#main-mid #list  table tr td{
 	height:24px;
 	line-height:24px;
 }
 
-#main-mid table tr td a{
+#main-mid #list  table tr td a{
 	color:#DDD;
 }
 
-#main-mid table tr td a:hover{
+#main-mid  #list table tr td a:hover{
 	color:#F60;
 }
 
-#main-mid table tr .voteid{
+#main-mid  #list table tr .voteid{
 	width:50px;
 }
 
-#main-mid table tr .votetitle{
+#main-mid  #list table tr .votetitle{
 	width:300px;
 }
 
-#main-mid table tr td.votetitle a{
+#main-mid  #list table tr td.votetitle a{
 	color:#000;
 }
 
 
-#main-mid table tr .votetime{
+#main-mid  #list table tr .votetime{
 	width:130px;
 }
 
-#main-mid table tr .voters{
+#main-mid  #list table tr .voters{
 	width:50px;
 }
-#main-mid table tr .voters a {
+#main-mid  #list table tr .voters a {
 	color:#007799;
 }
-
 /*main-right*/
 #main-right{
-	width:205px;
+	width:240px;
 	height:300px;
 	border-left:1px #939393 solid;
 }
 
 
-/*search*/
+/*search
 #main-right #search{
 	width:200px;
 	margin-left:4px;
@@ -222,7 +231,7 @@
 	line-height:24px;
 	margin:10px 0;
 }
-
+*/
 .keyword{
 	color:#D1D1D1;
 }
@@ -232,14 +241,13 @@
 }
 
 #main-right #notic{
-	/*height:400px;*/
-	width:200px;
+
 }
 
 #main-right #notice dt{
 	height:30px;
 	line-height:30px;
-	background:url(../images/notice.png) no-repeat 5 0 ;
+	background:url(../images/notice.png) no-repeat 0 0 ;
 	text-indent:70px;
 	border-bottom:2px #D6D6D6 solid;
 	padding-bottom:10px;
@@ -252,20 +260,17 @@
 	word-wrap:break-word;
 	word-break:break-all;
 	overflow:hidden;
-	width:200px;
-	height:30px;
-	line-height:15px;
-	font-size:12px;
-	text-indent:10px;
-	margin:0px 0;
+	width:240px;
+	height:20px;
+	line-height:18px;
+	font-size:14px;
+	text-indent:20px;
+	color:	#444444;
 }
 
 #main-right #notice dd a{
 	height:20px;
 	width:180px;
 	display:block;
-  color:#444444;
-}
-#main-right #notice dd:hover{
-  color:#FF0000;
+  color:	#000000;
 }

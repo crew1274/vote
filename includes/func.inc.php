@@ -51,15 +51,15 @@ function forget_password_send_mail($student_id,$student_name,$password)
 	$mail->setFrom('50156gm@gmail.com', '國立成功大學課務組');
 	$mail->addReplyTo('50156gm@gmail.com', '國立成功大學課務組');
 	$mail->addAddress($student_id.'@mail.ncku.edu.tw',$student_id);
-	$mail->Subject = '不可錯過十門課投票系統密碼驗證信';
+	$mail->Subject = '不可錯過十門課票選投票系統密碼驗證信';
   $mail->Body = '你好,'.$student_name.'同學:<br>
   你申請密碼驗證碼是:<b>'.$password.'</b><br>
-  <a href="http://140.116.39.225/vote/forget_1.php?student='.$student_id.'">請點此連結繼續完成密碼更新的流程!</a>
+  <a href="http://140.116.238.87/vote/forget_1.php?student='.$student_id.'">請點此連結繼續完成密碼更新的流程!</a>
   <br><br>
   國立成功大學課務組';
   $mail->AltBody = '你好,'.$student_name.'同學:<br>
   你申請密碼驗證碼是:<b>'.$password.'</b><br>
-  <a href="http://140.116.39.225/vote/forget_1.php?student='.$student_id.'">請點此連結繼續完成密碼更新的流程!</a><br>
+  <a href="http://140.116.238.87/vote/forget_1.php?student='.$student_id.'">請點此連結繼續完成密碼更新的流程!</a><br>
   如果你沒有申請此服務，請忽略本信，謝謝。<br><br>
   國立成功大學課務組';
   if ($mail->send()) {
@@ -84,13 +84,13 @@ function send_mail($student_id,$student_name,$student_password,$encrypt)
 	$mail->setFrom('50156gm@gmail.com', '國立成功大學課務組');
 	$mail->addReplyTo('50156gm@gmail.com', '國立成功大學課務組');
 	$mail->addAddress($student_id.'@mail.ncku.edu.tw',$student_id);
-	$mail->Subject = '不可錯過十門課投票系統驗證信';
+	$mail->Subject = '不可錯過十門課票選投票系統驗證信';
   $mail->Body = '你好,'.$student_name.'同學:<br>
-  謝謝你參與我們的投票活動，<a href="http://140.116.39.225/vote/authentication.php?authentication='.$encrypt.'">請點此連結選來驗證你的帳號!</a><br>
+  謝謝你參與我們的投票活動，<a href="http://140.116.238.87/vote/authentication.php?authentication='.$encrypt.'">請點此連結選來驗證你的帳號!</a><br>
   並請記得你的密碼<i>'.$student_password.'</i>，方便日後登入網站參與其他的投票活動，謝謝。<br><br>
   國立成功大學課務組';
   $mail->AltBody = '你好,'.$student_name.'同學:<br>
-  謝謝你參與我們的投票活動，<a href="http://140.116.39.225/vote/authentication.php?authentication='.$encrypt.'">請點此連結選來驗證你的帳號!</a><br>
+  謝謝你參與我們的投票活動，<a href="http://140.116.238.87/vote/authentication.php?authentication='.$encrypt.'">請點此連結選來驗證你的帳號!</a><br>
   並請記得你的密碼<i>'.$student_password.'</i>，方便日後登入網站參與其他的投票活動，謝謝。<br><br>
   國立成功大學課務組';
   if ($mail->send()) {

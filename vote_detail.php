@@ -10,12 +10,14 @@
      alertLocation('請先收取信件驗證此學號!', 'index.php');
 		 }
 	 //获取对应投票主题id的投票选项
+
 	 if(isset($_GET['id']) && !empty($_GET['id'])){
 	 	//判断是否存在该id对应的投票主题
-	 	$rs = mysqlFetchArray("SELECT `vt_title` FROM `vt_theme` WHERE `vt_id`='{$_GET['id']}'");
+	 	$rs = mysqlFetchArray("SELECT * FROM `vt_theme` WHERE `vt_id`='{$_GET['id']}'");
 	 	if(mysql_affected_rows() == 0){
 	 		alertLocation('不存在該投票主題!', 'index.php');
 	 	}
+		//$_GET['id']++;
 	 	$queryList = mysqlQuery("SELECT
 	 										`vt_id`,
 								 			`vt_vid`,
@@ -37,7 +39,13 @@
 	 }
 	 //進行投票
 	 if(!empty($_POST['vote'])){
-
+		 $ustart = strtotime($rs['vt_time']);
+		 $uend = strtotime($rs['vt_deadtime']);
+		 $localtime=time();
+     if($localtime<$ustart || $localtime>$uend)
+		 {
+			 alertLocation('很抱歉，目前不在該主題投票開放時間內!', 'index.php');
+		 }
 	 	if(empty($_POST['list']) || empty($_POST['interview']) ){
 	 		alertBack('你没有選擇投票選項,請選擇!');
 	 	}

@@ -1,6 +1,31 @@
 <?php
 	 require 'includes/comm.inc.php';
-	 $queryTheme = mysqlQuery("SELECT `vt_id`,`vt_title`,`vt_time` ,`vt_deadtime`FROM `vt_theme` ORDER BY `vt_id` DESC");
+	 if(isset($_GET['page'])){
+	 	$page = $_GET['page'];
+	 	if(empty($page) || $page<0 || !is_numeric($page)){
+	 		$page = 1;
+	 	}else{
+	 		$page = intval($_GET['page']);
+	 	}
+	 }else{
+	 	$page = 1;
+	 }
+	 $pagelimit = 8;
+
+	 $query = mysqlQuery("SELECT `vt_id` FROM `vt_theme`");
+	 $counter = mysql_num_rows($query);
+
+	 if($counter == 0){
+	 	$pagenum = 1;
+	 }else{
+	 	$pagenum = ceil($counter/$pagelimit);
+	 }
+
+	 if($page > $pagenum){
+	 	$page = $pagenum;
+	 }
+	 $pag = ($page-1)*$pagelimit;
+	 $queryTheme = mysqlQuery("SELECT `vt_id`,`vt_title`,`vt_admin`,`vt_time`,`vt_deadtime` FROM `vt_theme` ORDER BY `vt_id` DESC LIMIT $pag,$pagelimit");;
 	 $queryNotice = mysqlQuery("SELECT `vt_title`,`vt_content` FROM `vt_notice` ORDER BY `vt_id` DESC LIMIT 6");
 	 if(!empty($_POST['login'])){
  		$loginInfo = array();
@@ -53,12 +78,13 @@
           <?php
           if(!isset($_SESSION['student_id']))
 					{
+						echo "<dd><i>第一次登入請先取得帳號</i></dd>";
 						echo '<form action="" method="post"><br>
-						<label>學號:<input type="text" name="student_id" /></label><br>
-            <label>密碼:<input type="password" name="pass" /></label>
+						<label>學號:<input type="text" name="student_id" width="48"/></label><br>
+            <label>密碼:<input type="password" name="pass" width="48" /></label>
 			      <dd class="subbtm"><input type="submit" name="login" value="登入" />&nbsp;&nbsp;&nbsp;<input type="reset" name="reset" value="重置"/>
-            </form>
-						<dd><i><a href="forget.php">忘記密碼</a></i></dd>';
+<dd><i><a href="forget.php">忘記密碼</a></i></dd>
+						</form>';
 					}
 					else {
             echo '<dd><h3>你現在以'.$_SESSION['student_name'].'身分登入</h3><br></dd>
@@ -74,6 +100,7 @@
 				</dl>
 			</div>
 			<div id="main-mid">
+				<div id="list">
 				<table cellspacing="0" cellpadding="0" border="0">
 					<tbody>
 						<tr>
@@ -87,7 +114,7 @@
 							while(!!$rsTheme = fetchArray($queryTheme)){
 						?>
 						<tr>
-							<td class="voteid"><?php echo '#'.$rsTheme['vt_id']; ?></td>
+							<td class="voteid"><?php echo $rsTheme['vt_id']; ?></td>
 							<td class="votetitle"><a href="result.php?id=<?php echo $rsTheme['vt_id'];?>"><?php echo mb_substr($rsTheme['vt_title'], 0,18,'UTF-8'); ?></a></td>
 							<td class="votetime"><?php $str = explode(' ',$rsTheme['vt_time']); echo $str[0];?></td>
 							<td class="votetime"><?php $str = explode(' ',$rsTheme['vt_deadtime']); echo $str[0];?></td>
@@ -111,24 +138,41 @@
 					</tbody>
 				</table>
 			</div>
+			<?php
+				pageListText('index.php', '?', $pagenum, $page);
+			?>
+			</div>
+
 			<div id="main-right">
-				<form action="search.php" method="get" name="searchform">
+			<!--	<form action="search.php" method="get" name="searchform">
 					<dl id="search">
 						<dt>搜尋主題</dt>
 						<dd><input type="text" name="keyword" value="搜尋主題" class="keyword"/></dd>
 						<dd><input type="submit" name="search" value="搜尋" class="sub"/></dd>
 					</dl>
-				</form>
+				</form> -->
 				<dl id="notice">
 					<dt>公告提示</dt>
+					<dd></dd>
+					<marquee direction=up SCROLLAMOUNT="3" onMouseOver="this.stop()" onMouseOut="this.start()" > 
 					<dd>
-						<?php
-							while(!!$rsNotice = fetchArray($queryNotice)){
+						<!--<?php
+						//	while(!!$rsNotice = fetchArray($queryNotice)){
 						?>
-						<dd><a href="javascript:;" title="<?php echo $rsNotice['vt_content'];?>"><?php echo mb_substr($rsNotice['vt_title'], 0,24,'utf-8');?></a></dd>
+						<dd><a href="javascript:;" title="<?php //echo $rsNotice['vt_content'];?>"><?php //echo mb_substr($rsNotice['vt_title'], 0,10,'utf-8');?>...</a></dd><br>
 						<?php
-							}
-						?>
+						//	}
+						?>-->
+
+						票選活動結束後，主辦單位將抽出</dd>
+						<dd>5名同學各獲得500元禮券!</dd>
+					  <dd>快來投票吧!</dd>
+						<dd></dd>
+        <dd>另外，想成為課程推薦大使嗎?</dd>
+				<dd>若您同意接受訪問，請於票選後點</dd>
+				<dd>選同意「接受訪問」，我們將與您</dd>
+				<dd>聯絡，完成訪問後致贈驚喜小物!</dd>
+        </marquee>
         </dd>
 				</dl>
 			</div>
