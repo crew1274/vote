@@ -1,5 +1,4 @@
 <?php
-	 //数据库连接文件
 	define('DB_HOST', 'localhost');
 	define('DB_USER', '');
 	define('DB_PASS', '');
